@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 ZELTA: Behavioral Quantitative Financial Intelligence
 
-## Getting Started
+**Stop making financial decisions on emotion. Let the math decide. In plain English.**
 
-First, run the development server:
+ZELTA is a Behavioral Quantitative (BQ) engine built for the OAU student ecosystem. It bridges the gap between raw market data and human psychology by using **Bayse Markets** real-money crowd intelligence to detect market stress and **Gemini AI** to correct cognitive biases.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🧠 The BQ Framework
+
+ZELTA operates on a four-layer intelligence stack as defined in our technical roadmap:
+
+1.  **Bayse Intelligence Layer:** Pulls real-time order book data to measure "Crowd Fear."
+2.  **Stress Detector:** A Bayesian engine that combines market liquidity with NLP sentiment from campus news.
+3.  **Bayesian Engine:** Mathematically corrects for "Panic Selling" or "FOMO Buying" biases.
+4.  **Quant Allocator:** Uses Kelly-style NGN decision sizing to suggest optimal risk.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** FastAPI (Python 3.12)
+- **Intelligence:** Bayse Markets API (REST + WebSockets)
+- **AI/NLP:** Gemini 1.5 Pro (Vertex AI)
+- **Deployment:** Google Cloud Run
+- **Real-time:** WebSockets for live stress monitoring
+- **Frontend:** React + TailwindCSS + Next.js
+
+---
+
+## 🚀 Getting Started
+
+### 1. Environment Setup
+
+Create a `.env` file in the root directory:
+
+```env
+BAYSE_PUBLIC_KEY=your_public_key
+BAYSE_PRIVATE_KEY=your_private_key
+GEMINI_API_KEY=your_google_api_key
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
