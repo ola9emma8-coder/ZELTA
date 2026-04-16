@@ -1,0 +1,30 @@
+# ==========================================
+# ZELTA Backend Requirements
+# Python 3.11+
+# ==========================================
+
+# --- Core API & Server ---
+fastapi==0.110.1
+uvicorn[standard]==0.29.0
+
+# --- Live Data & Web Scraping ---
+aiohttp==3.9.3          # Async HTTP & WebSockets for Bayse
+beautifulsoup4==4.12.3  # HTML parsing for Nigerian news sources
+websockets==12.0        # WebSocket client for Bayse orderbook (if used instead of aiohttp)
+
+# --- Quantitative Math & Statistics ---
+numpy==1.26.4           # Array operations and aggregation
+scipy==1.13.0           # Bayesian inference and statistical likelihoods
+
+# --- Natural Language Processing (NLP) ---
+transformers==4.39.3    # HuggingFace pipeline for RoBERTa sentiment
+torch==2.2.2            # PyTorch backend required by transformers
+tf-keras==2.15.0        # Often required as a fallback dependency for transformers
+
+# --- AI & Cloud Integrations (ZELTA Co-Pilot) ---
+google-generativeai==0.4.1   # Gemini API for the plain-English Co-Pilot
+google-cloud-aiplatform==1.46.0 # Vertex AI SDK
+
+# --- Testing (Development Only) ---
+pytest==8.1.1
+pytest-asyncio==0.23.6
