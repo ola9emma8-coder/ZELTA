@@ -93,14 +93,14 @@ class ZeltaSentimentScorer:
         )
         return round(float(weighted_sum / total_weight), 3)
 
+    def run(self, news_payload: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Entry point called by stress/index.py"""
 
-def run_nlp_scoring(news_payload: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Entry point called by stress/index.py"""
-    scorer = ZeltaSentimentScorer()
-    scored = scorer.score_batch(news_payload)
-    aggregate = scorer.aggregate_score(scored)
-    print(f"[QUELO NLP] Aggregate sentiment: {aggregate:.3f}")
-    return {
-        "scored_headlines": scored,
-        "aggregate_sentiment": aggregate,
-    }
+        scored = self.score_batch(news_payload)
+        aggregate = self.aggregate_score(scored)
+        print(f"[QUELO NLP] Aggregate sentiment: {aggregate:.3f}")
+        return {
+            "scored_headlines": scored,
+            "aggregate_sentiment": aggregate,
+        }
+

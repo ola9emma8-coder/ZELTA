@@ -1,7 +1,7 @@
 from typing import Dict
 
 
-class QueloBayesianEngine:
+class ZeltaBayesianEngine:
     """
     Adjusts Bayse crowd probability using formal Bayesian inference.
 
@@ -221,7 +221,7 @@ class QueloBayesianEngine:
 
 def run_bayesian_engine(stress_data: Dict, bias_data: Dict) -> Dict:
     """Called by brain/pipeline.py"""
-    engine = QueloBayesianEngine()
+    engine = ZeltaBayesianEngine()
     result = engine.run(stress_data, bias_data)
     print(
         f"[QUELO Bayesian] Market: {result['market_probability']} "

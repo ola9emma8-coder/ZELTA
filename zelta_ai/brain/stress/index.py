@@ -1,10 +1,12 @@
+# stress/index.py
+
 from typing import Dict
 
 
-class QueloBayseStressIndex:
+class ZeltaBayseStressIndex:
     """
     Combines Bayse market signal (PRIMARY) + NLP sentiment (SECONDARY)
-    to produce the QUELO Student Stress Index (0-100).
+    to produce the ZELTA Student Stress Index (0-100).
 
     Weights:
     - Bayse crowd market signal: 60% (PRIMARY — real money crowd fear)
@@ -26,21 +28,17 @@ class QueloBayseStressIndex:
         Extracts crowd probability from Bayse data.
 
         Bayse returns prices as 0.0 to 1.0 (e.g. 0.68 = 68% YES crowd belief).
-        Falls back to spread-based score from LiveStressMonitor if ticker unavailable.
+        Falls back to spread-based score if ticker unavailable.
         """
-        # From LiveStressMonitor (ws-based) — already 0.0-1.0
         if "crowd_yes_price" in bayse_signal:
             return float(bayse_signal["crowd_yes_price"])
 
-        # From REST ticker — Bayse returns 0.0 to 1.0
         if "yes_price" in bayse_signal:
             price = float(bayse_signal["yes_price"])
-            # Safety check — reject if someone passed 0-100 scale by mistake
             if price > 1.0:
                 price = price / 100.0
             return max(0.01, min(0.99, price))
 
-        # Fallback — neutral
         return 0.5
 
     def compute_bayse_stress(self, market_prob: float) -> float:
@@ -61,7 +59,7 @@ class QueloBayseStressIndex:
         sentiment_score range: -1.0 (very negative) to +1.0 (very positive)
         More negative = more fear = more stress.
         """
-        # Shift to 0-1 and invert so negative sentiment = high stress
+        sentiment_score = max(-1.0, min(1.0, sentiment_score))
         return (1.0 - sentiment_score) / 2.0
 
     def combine(
@@ -79,28 +77,28 @@ class QueloBayseStressIndex:
         return int(round(min(1.0, max(0.0, value)) * 100))
 
     def classify(self, score: int) -> str:
-        """QUELO four-level stress classification"""
+        """ZELTA four-level stress classification"""
         if score >= 80:
             return "CRISIS"
         elif score >= 60:
             return "HIGH STRESS"
         elif score >= 30:
             return "MODERATE"
-        else:
-            return "CALM"
+        return "CALM"
 
     def get_plain_english(self, level: str, market_prob: float) -> str:
         """Plain English explanation for BQ Co-Pilot and dashboard"""
         crowd_pct = round(market_prob * 100)
+
         if level == "CRISIS":
             return (
-                f"Campus financial environment is in crisis mode. "
+                f"Financial environment is in crisis mode. "
                 f"Bayse crowds are pricing {crowd_pct}% probability of negative outcome. "
-                f"Extreme panic detected. QUELO is applying strong behavioral correction."
+                f"Extreme panic detected. ZELTA is applying strong behavioral correction."
             )
         elif level == "HIGH STRESS":
             return (
-                f"Nigerian markets are anxious right now. "
+                f"Markets are anxious right now. "
                 f"Bayse crowd pricing: {crowd_pct}%. "
                 f"Your decisions this week may be driven by fear, not logic."
             )
@@ -108,14 +106,13 @@ class QueloBayseStressIndex:
             return (
                 f"Market environment is balanced. "
                 f"Bayse crowd pricing: {crowd_pct}%. "
-                f"Decisions closest to rational — good time to review your plan."
+                f"Decisions are closest to rational — good time to review your plan."
             )
-        else:
-            return (
-                f"Campus financial environment is calm. "
-                f"Bayse crowd pricing: {crowd_pct}%. "
-                f"Watch for overconfidence — calm markets can create complacency."
-            )
+        return (
+            f"Financial environment is calm. "
+            f"Bayse crowd pricing: {crowd_pct}%. "
+            f"Watch for overconfidence — calm markets can create complacency."
+        )
 
     def compute(
         self,
@@ -140,11 +137,10 @@ class QueloBayseStressIndex:
         level = self.classify(score)
 
         return {
-            # Primary output key — used by all downstream modules
             "score": score,
+            "stress_score": score,  # alias for compatibility
             "level": level,
             "plain_english": self.get_plain_english(level, market_prob),
-            # Components for transparency and Co-Pilot explanation
             "components": {
                 "bayse_stress": round(bayse_stress, 3),
                 "nlp_stress": round(nlp_stress, 3),
@@ -152,23 +148,12 @@ class QueloBayseStressIndex:
                 "bayse_weight": self.weight_bayse,
                 "nlp_weight": self.weight_nlp,
             },
-            # Raw inputs for bias detector
             "raw": {
                 "sentiment_score": round(sentiment_score, 3),
                 "bayse_signal": bayse_signal,
             },
         }
 
-
-# ── PIPELINE ENTRY POINT ──────────────────────────────────────────────────────
-
 def run_stress_index(bayse_signal: Dict, sentiment_score: float) -> Dict:
-    """Called by brain/pipeline.py"""
-    engine = QueloBayseStressIndex()
-    result = engine.compute(bayse_signal, sentiment_score)
-    print(
-        f"[QUELO Stress] Score: {result['score']}/100 "
-        f"| Level: {result['level']} "
-        f"| Market prob: {result['components']['market_probability']}"
-    )
-    return result
+    computer = ZeltaBayseStressIndex()
+    return computer.compute(bayse_signal, sentiment_score)

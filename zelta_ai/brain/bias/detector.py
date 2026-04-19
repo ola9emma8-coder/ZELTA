@@ -1,3 +1,5 @@
+# bias/detector.py
+
 from typing import Dict, Optional
 
 
@@ -16,15 +18,9 @@ class ZeltaBiasDetector:
         wallet_data: Optional[Dict] = None,
     ) -> Dict:
 
-        # Use "score" — matches what stress/index.py will output
-        stress_score = stress_data.get("score", 50)
+        stress_score = stress_data.get("score", stress_data.get("stress_score", 50))
+        market_prob = stress_data.get("components", {}).get("market_probability", 0.5)
 
-        # Safe access — won't crash if components missing
-        market_prob = stress_data.get("components", {}).get(
-            "market_probability", 0.5
-        )
-
-        # Default wallet flags
         wallet_data = wallet_data or {
             "spending_spike": False,
             "cash_withdrawal": False,
@@ -36,29 +32,24 @@ class ZeltaBiasDetector:
         confidence = "Low"
         explanation = "Market appears stable. Your decisions are likely logical."
 
-        # ── Detection Rules (priority order) ─────────────────────────────────
-
-        # 1. Loss Aversion — high stress + panic cash withdrawal
         if stress_score >= 60 and wallet_data.get("cash_withdrawal"):
             bias = "Loss Aversion"
             confidence = "High"
             explanation = (
                 "Market fear is high and you withdrew cash. "
                 "You are hoarding out of panic, not logic. "
-                "QUELO corrected this — the rational action is different."
+                "ZELTA corrected this — the rational action is different."
             )
 
-        # 2. Present Bias — impulse buying despite upcoming obligations
         elif wallet_data.get("impulse_buy"):
             bias = "Present Bias"
             confidence = "High"
             explanation = (
                 "You made an impulse purchase. "
                 "Your upcoming obligations are at risk. "
-                "QUELO recommends reviewing your obligation map."
+                "ZELTA recommends reviewing your obligation map."
             )
 
-        # 3. Overconfidence — calm market, overly positive sentiment
         elif stress_score < 30 and sentiment_score > 0.3:
             bias = "Overconfidence"
             confidence = "Medium"
@@ -68,17 +59,15 @@ class ZeltaBiasDetector:
                 "you may be over-allocating to risky decisions."
             )
 
-        # 4. Herd Behavior — following extreme crowd positioning on Bayse
         elif 40 <= stress_score < 70 and abs(market_prob - 0.5) > 0.35:
             bias = "Herd Behavior"
             confidence = "Medium"
             explanation = (
                 "Bayse crowd is positioned heavily to one side. "
                 "You may be following the crowd without your own analysis. "
-                "QUELO separates your data from crowd noise."
+                "ZELTA separates your data from crowd noise."
             )
 
-        # 5. Mental Accounting — treating side hustle income as free money
         elif (
             wallet_data.get("spending_spike")
             and wallet_data.get("side_hustle_income_recent")
@@ -88,20 +77,20 @@ class ZeltaBiasDetector:
             explanation = (
                 "You received side hustle income and spending spiked. "
                 "You may be treating this as free money. "
-                "QUELO sees all naira equally — every naira has the same value."
+                "ZELTA sees all naira equally — every naira has the same value."
             )
 
-        # 6. General spending spike fallback
         elif wallet_data.get("spending_spike") and stress_score < 60:
             bias = "Mental Accounting"
             confidence = "Low"
             explanation = (
-                "Spending is elevated without clear stress trigger. "
+                "Spending is elevated without a clear stress trigger. "
                 "Review your unified wallet view."
             )
 
         return {
             "bias": bias,
+            "active_bias": bias,  # alias for compatibility
             "confidence": confidence,
             "explanation": explanation,
             "inputs": {
@@ -111,12 +100,11 @@ class ZeltaBiasDetector:
             },
         }
 
-
-def run_bias_detection(
-    stress_data: Dict,
-    sentiment_score: float,
-    wallet_data: Dict = None,
-) -> Dict:
-    """Entry point called by brain/pipeline.py"""
-    detector = ZeltaBiasDetector()
-    return detector.detect(stress_data, sentiment_score, wallet_data)
+    def run(
+        self,
+        stress_data: Dict,
+        sentiment_score: float,
+        wallet_data: Dict = None,
+    ) -> Dict:
+        """Entry point called by brain/pipeline.py"""
+        return self.detect(stress_data, sentiment_score, wallet_data)
