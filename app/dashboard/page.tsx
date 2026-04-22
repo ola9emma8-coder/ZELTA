@@ -222,7 +222,9 @@ function Page() {
             </div>
           </div>
 
-          <Button> Run Full Simulation</Button>
+          <Button className="text-green-600 text-center p-2 rounded-xl w-full lg:w-[50%] mx-auto bg-white mb-5">
+            Run Full Simulation
+          </Button>
         </div>
       </Widget>
     </section>
