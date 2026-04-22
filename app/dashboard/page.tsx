@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import PageHeader from "@/components/PageHeader"; 
-import dashboard from "/Dashboard"
+import dashboard from "@/app/dashboard/dashboard";
 
 const time = new Date().toLocaleString("en-US", {
   hour: "numeric",
