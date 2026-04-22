@@ -16,7 +16,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Zelta",
+  title: "Zelta AI",
   description: "behavioural quantitative intelligence",
 };
 
