@@ -23,7 +23,7 @@ function Page() {
   const searchParam = useSearchParams();
   const name = searchParam.get("username");
   return (
-
+<Suspense fallback={<div>Loading your dashboard...</div>}>
 
     <section className="space-y-6">
       {/*  PAGE HEADER */}
@@ -32,7 +32,7 @@ function Page() {
         description="here's your financial intelligence for today"
       />
 
-        <Suspense fallback={<div>Loading dashboard...</div>}>
+    
       
       {/*  DASHBOARD HOMEPAGE WIWDGET 3 */}
       {/* Add dashboard widgets and cards here. The dashboard layout splits sidebar 30% / content 70%. */}
@@ -232,8 +232,8 @@ function Page() {
           </Button>
         </div>
       </Widget>
-      </Suspense>
     </section>
+    </Suspense>
     
   );
 }
