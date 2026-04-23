@@ -11,12 +11,22 @@ import {
 } from "lucide-react";
 import Button from "@/components/Button";
 
+const time = new Date().toLocaleString("en-US", {
+  hour: "numeric",
+  minute: "numeric",
+  hour12: true,
+});
+
+
 function Dashboard() {
   const searchParam = useSearchParams();
   const name = searchParam.get("username");
   return (
     <section className="space-y-6">
-    
+      <PageHeader
+        title={`${time.includes("AM") ? "Good Morning" : "Good Evening"},\n ${name}`}
+        description="here's your financial intelligence for today"
+      />
       
       {/*  DASHBOARD HOMEPAGE WIWDGET 3 */}
       {/* Add dashboard widgets and cards here. The dashboard layout splits sidebar 30% / content 70%. */}
