@@ -1,14 +1,11 @@
-import PageHeader from "@/components/PageHeader";
+import { Suspense } from "react";
+import Dashboard from "@/app/dashboard/dashboard";
 
 function Page() {
   return (
-    <section className="space-y-6">
-      <PageHeader
-        title="Good morning"
-        description="Here's your financial intelligence for today"
-      />
-      {/* Add dashboard widgets and cards here. The dashboard layout splits sidebar 30% / content 70%. */}
-    </section>
+    <Suspense fallback={<div>Loading dashboard...</div>}>
+      <Dashboard />
+    </Suspense>
   );
 }
 

@@ -3,9 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
 
-  /* --foreground: #ffffff;
-  --background: #171717; */
+/* This is the standard dark mode media query */
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+/* If you implement a class-based toggle (like dark/light mode button), 
+   add this to your CSS */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -15,22 +27,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Dark mode disabled for now
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-*/
-
 body {
-  background: var(--foreground);
-  color: var(--background);
-
-  /* i aded the below to test light mode manualy  */
-  /* background: var(--background);
-  color: var(--foreground); */
+  /* Use the variables here; don't swap them manually */
+  background: var(--background);
+  color: var(--foreground);
   width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
 }
