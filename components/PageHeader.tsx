@@ -2,8 +2,8 @@ import React from "react";
 // import PagesHeading from "./PagesHeading";
 
 interface PageHeaderProps {
-  title: string;
-  description: string;
+  title: any;
+  description: any;
 }
 
 function PageHeader({ title, description }: PageHeaderProps) {
