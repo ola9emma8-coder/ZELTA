@@ -50,9 +50,9 @@ function Page() {
   };
 
   return (
-    <section className=" min-h-screen mx-auto w-[90%] md:w-[40%] lg:w-[30%] flex flex-col justify-center items-center ">
-      <div className="mt-6 p-4 text-center ">
-        <h2 className="font-bold text-[22px] lg:text-[26px] text-green-500 pb-1">
+    <section className="min-h-screen mx-auto w-[90%] md:w-[40%] lg:w-[30%] space-y-5 ">
+      <div className="mt-4 p-3 text-center ">
+        <h2 className="font-bold text-[22px] lg:text-[26px] text-[#10b981] pb-1">
           {" "}
           ZELTA
         </h2>
@@ -66,11 +66,12 @@ function Page() {
         className="w-full text-start  "
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-
-          navigate.push("/dashboard");
+          navigate.push(`/dashboard?username=${encodeURIComponent(name)}`);
+          // sending userName to the URL from here and probably to server
+          // navigate.push("/dashboard");
         }}
       >
-        <div className="mb-6">
+        <div className="mb-4">
           <h4 className="mb-1 font-semibold ">Your Name</h4>
           <input
             type="text"
@@ -85,7 +86,7 @@ function Page() {
         </div>
 
         {formSections.map((section, idx) => (
-          <div key={idx} className="mb-6">
+          <div key={idx} className="mb-4">
             <h3 className="mb-1 font-semibold text-[14px] lg:text-base">
               {section.heading}
             </h3>
@@ -110,7 +111,7 @@ function Page() {
           </div>
         ))}
 
-        <Button className="bg-green-600 text-center p-2 rounded-xl w-full text-white mb-4">
+        <Button className="bg-[#10b981] text-center p-2 rounded-xl w-full text-white mb-4">
           Continue to Dashboard
         </Button>
       </form>

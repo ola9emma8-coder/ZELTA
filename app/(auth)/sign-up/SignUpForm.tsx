@@ -1,10 +1,24 @@
 "use client";
-import { useState } from "react";
+import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 
-export default function SignUpForm() {
-  //   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+interface Props {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleSignUp: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  // password: string;
+}
+
+export default function SignUpForm({
+  email,
+  password,
+  setEmail,
+  setPassword,
+  handleSignUp,
+}: Props) {
+  const navigate = useRouter();
 
   return (
     <section className=" w-[80%] md:w-[50%] lg:w-[40%] xl:w-[25%] mx-auto p-6 rounded-xl flex flex-col justify-center items-between  pt-2 ">
@@ -14,7 +28,7 @@ export default function SignUpForm() {
 
       <form
         className="space-y-4 flex flex-col justify-center "
-        onSubmit={(event) => event.preventDefault()}
+        onSubmit={handleSignUp}
       >
         <label className="block text-md font-medium">
           Email
@@ -42,12 +56,23 @@ export default function SignUpForm() {
           />
         </label>
 
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-green-800 text-white px-4 py-2 hover:bg-green-900"
-        >
+        <Button className="w-full rounded-xl bg-[#10b981] text-white px-4 py-2 hover:bg-[#0b825a]">
           Sign Up
-        </button>
+        </Button>
+
+        <div className="text-center">
+          <p>
+            Have an account ?{" "}
+            <Button
+              className="text-green-600"
+              onClick={() => {
+                navigate.push("/login");
+              }}
+            >
+              Sign In{" "}
+            </Button>
+          </p>
+        </div>
       </form>
     </section>
   );

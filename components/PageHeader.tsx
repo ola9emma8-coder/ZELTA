@@ -1,20 +1,25 @@
+"use client";
 import React from "react";
-// import PagesHeading from "./PagesHeading";
+// import Button from "./Button";
 
 interface PageHeaderProps {
-  title: any;
-  description: any;
+  title: string;
+  description: string;
+  children?: React.ReactNode;
 }
 
-function PageHeader({ title, description }: PageHeaderProps) {
+function PageHeader({ title, description, children }: PageHeaderProps) {
   return (
-    <div>
-      <h2 className="text-[20px] lg:text-[24px] font-bold md:text-3xl">
-        {title}
-      </h2>
-      <p className="text-gray-600 text-[15px] lg:text-[18px] md:text-lg">
-        {description}
-      </p>
+    <div className={`flex justify-between `}>
+      <div>
+        <h2 className="text-[22px] lg:text-3xl font-bold xl:text-4xl">
+          {title}
+        </h2>
+        <p className="text-[#444] text-[14px] lg:text-base md:text-lg mt-1 ">
+          {description}
+        </p>
+      </div>
+      {children}
     </div>
   );
 }

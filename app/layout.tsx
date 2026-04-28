@@ -1,7 +1,9 @@
+// "use client";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 
+// import { ThemeContextProvider, UseTheme } from "../context/themeContext";
 // const inter = Inter({
 //   variable: "--font-inter",
 //   subsets: ["latin"],
@@ -9,11 +11,12 @@ import "./globals.css";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-open-sans",
 });
 
 export const metadata: Metadata = {
-  title: "Zelta",
+  title: "Zelta AI",
   description: "behavioural quantitative intelligence",
 };
 
@@ -22,7 +25,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${openSans.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col p-3">{children}</body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
