@@ -1,12 +1,25 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
 
-export default function LoginForm() {
+interface Props {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleLogin: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  authenticationError: string | null;
+}
+
+export default function LoginForm({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  handleLogin,
+  authenticationError,
+}: Props) {
   const navigate = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   return (
     <section className=" w-full md:w-[50%] lg:w-[40%] xl:w-[25%] mx-auto p-6 rounded-xl flex flex-col justify-center items-between  pt-2 ">
       <h1 className="text-[22px] font-semibold mb-4 text-center ">
@@ -15,15 +28,7 @@ export default function LoginForm() {
 
       <form
         className="space-y-4 flex flex-col justify-center "
-        onSubmit={(event) => {
-          event.preventDefault();
-          // send login information to backend, if successful, navigate to dashboard, if not, show error message. For now, we'll just navigate to dashboard.
-          if (!email || !password) {
-            alert("Please enter both email and password");
-            return;
-          }
-          navigate.push("/form");
-        }}
+        onSubmit={handleLogin}
       >
         <label className="block text-md font-medium">
           Email
@@ -49,12 +54,34 @@ export default function LoginForm() {
           />
         </label>
 
-        <button
+        {authenticationError && (
+          <div className="error-message">
+            <p className="text-red-500 text-center text-[14px]">
+              {authenticationError}
+            </p>
+          </div>
+        )}
+
+        <Button
           // type="submit"
           className="rounded-xl bg-[#10b981] text-white px-6 py-2 hover:bg-[#0b825a]"
         >
           Continue
-        </button>
+        </Button>
+
+        <div className="text-center">
+          <p>
+            New ?{" "}
+            <Button
+              className="text-green-600"
+              onClick={() => {
+                navigate.push("/sign-up");
+              }}
+            >
+              Sign up{" "}
+            </Button>
+          </p>
+        </div>
       </form>
     </section>
   );

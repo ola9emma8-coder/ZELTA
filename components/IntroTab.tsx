@@ -55,8 +55,7 @@ export default function Home() {
       setActiveTab(intro[currentIndex + 1].id);
     }
     if (current?.buttonText === "Get Started") {
-      navigate.push("/auth");
-      console.log("buttton triggered");
+      navigate.push("/login");
     }
   };
 
@@ -83,7 +82,7 @@ export default function Home() {
             <Button
               className="mt-2 rounded-xl w-[80%]  hover:bg-orange-400 px-8 py-2 cursor-pointer text-[14px]"
               onClick={() => {
-                navigate.push("/auth");
+                navigate.push("/login");
               }}
             >
               Skip

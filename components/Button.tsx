@@ -8,9 +8,14 @@ function Button({
   children: React.ReactNode;
   onClick?: () => void;
   className: string;
+  // type: string | null;
 }) {
   return (
-    <button onClick={onClick} className={`cursor-pointer ${className}`}>
+    <button
+      type="submit"
+      onClick={onClick}
+      className={`cursor-pointer ${className}`}
+    >
       {children}
     </button>
   );

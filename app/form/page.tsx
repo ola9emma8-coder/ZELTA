@@ -50,8 +50,8 @@ function Page() {
   };
 
   return (
-    <section className="min-h-screen mx-auto w-[90%] md:w-[40%] lg:w-[30%] flex flex-col justify-center items-center ">
-      <div className="mt-6 p-4 text-center ">
+    <section className="min-h-screen mx-auto w-[90%] md:w-[40%] lg:w-[30%] space-y-5 ">
+      <div className="mt-4 p-3 text-center ">
         <h2 className="font-bold text-[22px] lg:text-[26px] text-[#10b981] pb-1">
           {" "}
           ZELTA
@@ -71,7 +71,7 @@ function Page() {
           // navigate.push("/dashboard");
         }}
       >
-        <div className="mb-6">
+        <div className="mb-4">
           <h4 className="mb-1 font-semibold ">Your Name</h4>
           <input
             type="text"
@@ -86,7 +86,7 @@ function Page() {
         </div>
 
         {formSections.map((section, idx) => (
-          <div key={idx} className="mb-6">
+          <div key={idx} className="mb-4">
             <h3 className="mb-1 font-semibold text-[14px] lg:text-base">
               {section.heading}
             </h3>
